@@ -39,10 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'django_crontab',
     'message_sendler',
     'users',
-    'django_crontab',
-    'blog'
+    'blog',
 ]
 
 MIDDLEWARE = [
@@ -143,12 +143,13 @@ LOGIN_URL = '/users/'
 
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 465
-EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_HOST_USER = 'mister.kavabanga@yandex.ru'
+EMAIL_HOST_PASSWORD = 'wtqffcjkzhqbhclq'
 EMAIL_USE_SSL = True
 
+
 CRONJOBS = [
-    ('*/5 * * * *', 'mailing_list.services.send_mails')
+    ('*/5 * * * *', 'message_sendler.services.send_mails')
 ]
 
 CACHES_ENABLE = os.getenv('CACHES_ENABLE') == 'True'

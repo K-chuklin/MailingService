@@ -1,0 +1,52 @@
+{% extends 'message_sendler/base.html' %}
+{% block content %}
+    <div class="container">
+        <div class="col-12 mb-5">
+            <a class='btn btn-outline-primary' href="{% url 'message_sendler:mailing_create' %}">Добавить рассылку</a>
+        </div>
+        <div class="row text-center">
+            {% for object in object_list %}
+                <div class="col-md-4">
+                    <div class="card mb-4 box-shadow">
+                        <div class="card-header">
+                            <p class="my-0 font-weight-normal">Дата начала рассылки: ({{ object.start_time }})</p>
+                            <hr>
+                            <p class="my-0 font-weight-normal">Дата окончания рассылки: ({{ object.finish_time }})</p>
+                        </div>
+                        <div class="card-body">
+                            <p>
+                                Статус рассылки: {{ object.get_status_display }}
+                            </p>
+                            <p>
+                                Периодичность: {{ object.get_periodicity_display }}
+                            </p>
+                            <p>
+                                {% if perms.mailing_list.view_mailingclient %}
+                                    <a href="{% url 'message_sendler:mailing_client' object.pk %}">Подписчиков: {{ object.mailingclient_set.count }}</a>
+                                {% else %}
+                                    Подписчиков: {{ object.mailingclient_set.count }}
+                                {% endif %}
+                            </p>
+                            <p>
+                                {% if user.is_staff %}
+                                    <hr>
+                                    {{ object.owner }}
+                                {% endif %}
+                            </p>
+                        </div>
+                        <div class="card-footer">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group-toggle">
+                                    <a href="{% url 'message_sendler:mailing_edit' object.pk %}" type="button"
+                                       class="btn btn-sm btn-outline-primary">Edit</a>
+                                    <a href="{% url 'message_sendler:meiling_delete' object.pk %}" type="button"
+                                       class="btn btn-sm btn-outline-danger">Delete</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
